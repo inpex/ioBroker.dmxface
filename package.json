@@ -6,7 +6,7 @@
     "name": "Author",
     "email": "author@mail.com"
   },
-  "homepage": "https://github.com/Author/ioBroker.template",
+  "homepage": "https://github.com/dmxface/ioBroker.template",
   "license": "MIT",
   "keywords": [
     "ioBroker",
@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Author/ioBroker.template"
+    "url": "https://github.com/dmxface/ioBroker.template"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^1.0.3"
@@ -51,7 +51,7 @@
     "lint": "eslint"
   },
   "bugs": {
-    "url": "https://github.com/Author/ioBroker.template/issues"
+    "url": "https://github.com/DMXface/ioBroker.template/issues"
   },
   "readmeFilename": "README.md"
 }

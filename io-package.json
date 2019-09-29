@@ -5,17 +5,17 @@
         "news": {
             "0.0.1": {
                 "en": "initial release",
-                "de": "Erstveröffentlichung",
+                "de": "Erstveröffentlichung"
             }
         },
         "title": "DMXface (JavaScript)",
         "titleLang": {
             "en": "DMXface (JavaScript)",
-            "de": "DMXface (JavaScript)",
+            "de": "DMXface (JavaScript)"
         },
         "desc": {
             "en": "DMXface adapter development",
-            "de": "DMXface Adapterentwicklung",
+            "de": "DMXface Adapterentwicklung"
         },
         "authors": [
             "Author <mail@dmxface.at>"

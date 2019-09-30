@@ -1,7 +1,7 @@
 {
   "name": "iobroker.dmxface",
   "version": "0.0.1",
-  "description": "Template for dmxface development",
+  "description": "DMXface adapter development",
   "author": {
     "name": "Hufnagl Oliver",
     "email": "mail@dmxface.at"

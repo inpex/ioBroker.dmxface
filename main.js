@@ -1,25 +1,19 @@
 'use strict';
 
-/*
- * Created with @iobroker/create-adapter v1.16.0
- */
-
-// The adapter-core module gives you access to the core ioBroker functions
-// you need to create an adapter
 const utils = require('@iobroker/adapter-core');
+//var adapter  = utils.Adapter ('dmxface');
+
+
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
 
-class Template extends utils.Adapter {
+class DMXface extends utils.Adapter {
 
-    /**
-     * @param {Partial<ioBroker.AdapterOptions>} [options={}]
-     */
     constructor(options) {
         super({
             ...options,
-            name: 'template',
+            name: 'DMXface',
         });
         this.on('ready', this.onReady.bind(this));
         this.on('objectChange', this.onObjectChange.bind(this));
@@ -28,9 +22,7 @@ class Template extends utils.Adapter {
         this.on('unload', this.onUnload.bind(this));
     }
 
-    /**
-     * Is called when databases are connected and adapter received configuration.
-     */
+
     async onReady() {
         // Initialize your adapter here
 
@@ -92,7 +84,7 @@ class Template extends utils.Adapter {
      */
     onUnload(callback) {
         try {
-            this.log.info('cleaned everything up...');
+            this.log.info('DMXface connection closes');
             callback();
         } catch (e) {
             callback();
@@ -154,8 +146,8 @@ if (module.parent) {
     /**
      * @param {Partial<ioBroker.AdapterOptions>} [options={}]
      */
-    module.exports = (options) => new Template(options);
+    module.exports = (options) => new DMXface(options);
 } else {
     // otherwise start the instance directly
-    new Template();
+    new DMXface();
 }

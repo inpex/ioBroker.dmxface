@@ -38,6 +38,11 @@ class Template extends utils.Adapter {
         // this.config:
         this.log.info('config option1: ' + this.config.option1);
         this.log.info('config option2: ' + this.config.option2);
+        this.log.info('DMXface IP: ' + this.config.ipaddress);
+        this.log.info('DMXface PORT: ' + this.config.port);
+		this.log.info('DMXface REQUESTTIMING: ' + this.config.requesttiming);
+        this.log.info('DMXface LAST DMXCHANNEL: ' + this.config.lastdmxchannel);
+
 
         /*
         For every state in the system there has to be also an object of type state

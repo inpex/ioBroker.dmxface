@@ -57,10 +57,10 @@
     },
     "native": {
         "option1": true,
-        "option2": "42"
-		"ipaddress": "192.168.0.1"
-		"port": "5000"
-		"requesttiming": "500"
+        "option2": "42",
+		"ipaddress": "192.168.0.1",
+		"port": "5000",
+		"requesttiming": "500",
 		"lastdmxchannel": "224"
     },
     "objects": [],

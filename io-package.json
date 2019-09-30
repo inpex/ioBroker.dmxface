@@ -4,8 +4,8 @@
         "version": "0.0.1",
         "news": {
             "0.0.1": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung"
+                "en": "Is being developed",
+                "de": "Wird gerade entwickelt"
             }
         },
         "title": "DMXface (JavaScript)",
@@ -31,8 +31,8 @@
         "main": "main.js",
         "icon": "dmxface.png",
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/DMXface/ioBroker.dmxface/master/admin/dmxface.png",
-        "readme": "https://github.com/DMXface/ioBroker.dmxface/blob/master/README.md",
+        "extIcon": "https://raw.githubusercontent.com/DMXface/ioBroker.DMXface/master/admin/dmxface.png",
+        "readme": "https://github.com/DMXface/ioBroker.DMXface/blob/master/README.md",
         "loglevel": "info",
         "mode": "daemon",
         "type": "general",
@@ -58,6 +58,10 @@
     "native": {
         "option1": true,
         "option2": "42"
+		"ipaddress": "192.168.0.1"
+		"port": "5000"
+		"requesttiming": "500"
+		"lastdmxchannel": "224"
     },
     "objects": [],
     "instanceObjects": []

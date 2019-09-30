@@ -37,5 +37,23 @@ systemDictionary = {
         'es': 'opcion 2',
         'pl': 'Opcja 2',
         'zh-cn': '选项2'
+    },
+	
+	'DMXface IP address': {
+        'en': 'DMXface IP address',
+        'de': 'DMXface IP Adresse' 
+    },
+	
+	'Communication port': {
+        'en': 'Communication port',
+        'de': 'Kommunikations Port' 
+    },
+	'Request timing (ms)': {
+        'en': 'Request timing (ms)',
+        'de': 'Abfrage timing (ms)' 
+    },
+	'Last DMX channel used': {
+        'en': 'Last DMX channel used',
+        'de': 'Letzter verwendeter DMX Kanal' 
     }
 };

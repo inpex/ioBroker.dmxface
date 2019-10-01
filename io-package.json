@@ -56,10 +56,10 @@
         ]
     },
     "native": {
-		"ipaddress": "192.168.0.1",
-		"port": "5000",
-		"requesttiming": "500",
-		"lastdmxchannel": "224"
+		"ipaddress": "0.0.0.0",
+		"port": "6000",
+		"requesttiming": "1000",
+		"lastdmxchannel": "0"
     },
     "objects": [],
     "instanceObjects": []

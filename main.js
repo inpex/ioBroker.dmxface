@@ -62,21 +62,45 @@ adapter.on ('ready',function (){
 				native:{}
 		});		
 		}
+		
 		//IR REMOTE RECEIVE
 		adapter.setObjectNotExists ('IR_RECEIVE',{
 			type:'state',
 				common:{name:'IR REMOTE RECEIVE',type:'string',role:'value',read:true,write:false},
 				native:{}
 		});		
+		
+		//SCENEN CALLER 
+		adapter.setObjectNotExists ('SCENE_CALL',{
+			type:'state',
+				common:{name:'SCENE NUMBER CALL',type:'number',role:'value',read:true,write:false},
+				native:{}
+		});		
+		
+		//PROGRAM CALLER 
+		adapter.setObjectNotExists ('PROGRAM_CALL',{
+			type:'state',
+				common:{name:'PROGRAM NUMBER CALL',type:'number',role:'value',read:true,write:false},
+				native:{}
+		});		
+		
+		
+		//BUS_INPORTS
+		for (i=1;i<=32;i++){
+			adapter.setObjectNotExists (GetBUS(i),{
+			type:'state',
+			common:{name:'BUS IO'+i,type:'boolean',role:'value',read:true,write:true},
+			native:{}
+		});		
+		}
+		
 		adapter.subscribeStates('*');
-
-
 // Connect the DMXface server
-	CONNECT_CLIENT();
+		CONNECT_CLIENT();
 // Initialize the request process
 	//OBJID_REQUEST = setInterval (CLIENT_REQUEST,TIMING);
-	}
-	);
+});
+
 
 
 // Adapter termination by IObroker
@@ -85,8 +109,7 @@ adapter.on ('unload',function (callback){
 	//clearInterval (OBJID_REQUEST);
 	CLIENT.close;
 	callback;
-	}
-	);
+	});
 
 
 //State Changes	
@@ -111,6 +134,28 @@ adapter.on ('stateChange',function (id,obj){
 		case 'D':		//DMX CHANNEL
 			var PORTNUMBER = parseInt(PORTSTRING.substring(3));
 			WDATA= Buffer.from ([0xF0,0x44,0x00,(PORTNUMBER &0xFF),obj.val]);  // DMXFACE ACTIVE SEND Command SET DMX CHANNEL
+			client.write (WDATA); 
+			break;
+		case 'B':	 //BUS IO will be implemented 
+			var PORTNUMBER = parseInt(PORTSTRING.substring(3));
+			PORTNUMBER+=24;
+			WDATA= Buffer.from ([0xF0,0x4F,(PORTNUMBER & 0xFF),0]);  // DMXFACE ACTIVE SEND BUS IO
+			if (obj.val ==true) {WDATA[3] = 1;}						// IF TRUE then ON 
+			client.write (WDATA); 
+			break;
+		case 'S':  //SCENE CALLER  
+			var SCENE_NUMBER = obj.val;
+			if (SCENE_NUMBER < 1){return;}
+			if (SCENE_NUMBER > 180){return;}
+			WDATA= Buffer.from ([0xF0,0x53,SCENE_NUMBER]);  // DMXFACE ACTIVE SEND BUS IO
+			client.write (WDATA); 
+			break;
+		
+		case 'P':  //PROGRAM CALLER  
+			var PG_NUMBER = obj.val;
+			if (PG_NUMBER < 1){return;}
+			if (PG_NUMBER > 28){return;}
+			WDATA= Buffer.from ([0xF0,0x50,PG_NUMBER]);  // DMXFACE ACTIVE SEND BUS IO
 			client.write (WDATA); 
 			break;
 		default:
@@ -151,7 +196,7 @@ function CBclientCONNECT () {
 }
 
 	
-//todo CLIENT ABFRAGE nur noch für AD PORTS mit allem drum und dran
+//AKTUELL NICHT GEBRAUCHT 
 function CLIENT_REQUEST	(){
 	if (IS_ONLINE = true) {
 		//nur die AD Ports 
@@ -204,6 +249,16 @@ function CBclientRECEIVE(RXdata) {
 					adapter.setState(GetIN(x),ONOFF);
 					if (i & RXdata[7]){ONOFF = true;} else {ONOFF = false;}
 					adapter.setState(GetIN(x+8),ONOFF);
+					//if (i & RXdata[6]){ONOFF = true;} else {ONOFF = false;}
+					//adapter.setState(GetIN(x+16),ONOFF);
+					if (i & RXdata[5]){ONOFF = true;} else {ONOFF = false;}
+					adapter.setState(GetBUS(x),ONOFF);
+					if (i & RXdata[4]){ONOFF = true;} else {ONOFF = false;}
+					adapter.setState(GetBUS(x+8),ONOFF);
+					if (i & RXdata[3]){ONOFF = true;} else {ONOFF = false;}
+					adapter.setState(GetBUS(x+16),ONOFF);
+					if (i & RXdata[2]){ONOFF = true;} else {ONOFF = false;}
+					adapter.setState(GetBUS(x+24),ONOFF);
 					x+=1;
 				}
 			}
@@ -258,3 +313,7 @@ function GetIN (number){
 	return 'INPORT'+number;
 }
 
+function GetBUS (number){
+	if (number <10) {return 'BUS0'+number;}
+	return 'BUS'+number;
+}

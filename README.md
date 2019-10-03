@@ -1,13 +1,13 @@
 ![Logo](admin/dmxface.png)
 http://www.dmxface.at
 # ioBroker.dmxface
-Programmable IO Controller with <br>
+Programmable IO controller with <br>
  DMX Out<br>
  DMX In<br>
  8 to 16 In- and Outports  (16 ports with the IO8 extension)<br>
  6 LED common anode Ports up to 1A/channel<br>
  IR receiver and transmitter port<br>
- RS485 Bus for the connection of up to 8 LCD touch displays with 2,4 or 8 inches.<br>
+ RS485 Bus for the connection of up to 8 LCD touch displays with 2.4 or 5 inches.<br>
  LAN Interface supporting up to 7 individual configurable sockets<br>
  USB Port for programming and communication<br>
 Dokumentation and communication protocoll downloads http://www.spl-technik.at/index.php/dmxface-downloads
@@ -17,7 +17,6 @@ This adapter connects the DMXfaceXP controller with ioBroker.
 The communication protocoll used is the DMXface ACTIVE SEND protocoll.
 
 ## Setup the DMXface
-This IObroker adapter uses the DMXface ACTIVE SEND protocoll to communicate.<br>
 To configure the DMXface controller, you need the 'DMXface Console' downloadable at www.dmxface.at.<br>
 After connecting by USB you can access and change the controllers setup und network settings as well programm the controller.<br>
 

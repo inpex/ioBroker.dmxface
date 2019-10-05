@@ -2,43 +2,6 @@
 'use strict';
 
 systemDictionary = {
-    'template adapter settings': {
-        'en': 'Adapter settings for template',
-        'de': 'Adaptereinstellungen für template',
-        'ru': 'Настройки адаптера для template',
-        'pt': 'Configurações do adaptador para template',
-        'nl': 'Adapterinstellingen voor template',
-        'fr': "Paramètres d'adaptateur pour template",
-        'it': "Impostazioni dell'adattatore per template",
-        'es': 'Ajustes del adaptador para template',
-        'pl': 'Ustawienia adaptera dla template',
-        'zh-cn': 'template的适配器设置'
-    },
-    'option1': {
-        'en': 'option1',
-        'de': 'Option 1',
-        'ru': 'Опция 1',
-        'pt': 'Opção 1',
-        'nl': 'Optie 1',
-        'fr': 'Option 1',
-        'it': 'opzione 1',
-        'es': 'Opción 1',
-        'pl': 'opcja 1',
-        'zh-cn': '选项1'
-    },
-    'option2': {
-        'en': 'option2',
-        'de': 'Option 2',
-        'ru': 'option2',
-        'pt': 'opção 2',
-        'nl': 'Optie 2',
-        'fr': 'Option 2',
-        'it': 'opzione 2',
-        'es': 'opcion 2',
-        'pl': 'Opcja 2',
-        'zh-cn': '选项2'
-    },
-	
 	'DMXface IP address': {
         'en': 'DMXface IP address',
         'de': 'DMXface IP Adresse' 
@@ -48,12 +11,16 @@ systemDictionary = {
         'en': 'Communication port',
         'de': 'Kommunikations Port' 
     },
-	'Request timing (ms)': {
-        'en': 'Request timing (ms)',
-        'de': 'Abfrage timing (ms)' 
+	'Request timing if addition channels are listed (ms)': {
+        'en': 'Request timing if addition channels are listed (ms)',
+        'de': 'Abfrage timing wenn zusätzliche Kanäle angeführt wurden (ms)' 
     },
 	'Last DMX channel used': {
         'en': 'Last DMX channel used',
         'de': 'Letzter verwendeter DMX Kanal' 
     }
+	'Additional channel requests (e.g. IN1,IN7,BUS5,DMX100)'{
+		'en': 'Additional channel requests (e.g. IN1,IN7,BUS5,DMX100)',
+        'de': 'Zusätzlich abzufragende Kanäle (z.B. IN1,IN7,BUS5,DMX100)'
+	}
 };

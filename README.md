@@ -49,16 +49,16 @@ Add the DMXface adapter from github  https://github.com/DMXface/ioBroker.dmxface
 Create an instance of the adapter.
 
 ## Adapter configuration
-Adapter configuration:
-IP address:  Same as used for the DMXfaceXP controller
-Port: Same as configured in the network socket 6 or 7
-Last DMX channel used: Number of DMX state objects that will be created when the DMXface adapter ist started.
+Adapter configuration:<br>
+IP address:  Same as used for the DMXfaceXP controller<br>
+Port: Same as configured in the network socket 6 or 7<br>
+Last DMX channel used: Number of DMX state objects that will be created when the DMXface adapter ist started.<br>
 Additional channel requests:<br>
 Here you can list addition ports that should be requested cyclic by ioBroker.<br>
 DMXface covers the possibility to process values of DMX channels, AD values of INPORT or BUS ports by a conversion table. 
 The request reads the (converted) value of a listed port an forwards it to a state object as floating value.<br>
 
-Request timing if addition channels are listed (ms): This value specifies the timing within the additional channels are requested one by one.
+Request timing if addition channels are listed (ms): This value specifies the timing within the additional channels are requested one by one.<br>
 
 ### 1.0.0
 first release

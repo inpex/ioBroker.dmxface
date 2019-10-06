@@ -11,15 +11,15 @@ Programmable IO controller with <br>
  RS485 Bus for the connection of up to 8 LCD touch displays with 2.4 or 5 inches.<br>
  LAN Interface supporting up to 7 individual configurable sockets<br>
  USB Port for programming and communication<br>
- RTC Clock with day of week / date  
- Optional RS232, KNX, audio triggering, ...
+ RTC Clock with day of week / date<br>
+ Optional RS232, KNX, audio triggering, ...<br>
  
- 224 DMX channels  (DMXfaceXP pro supports 512+32 DMX channels)
- 180 Storeable scenes with fade times 0.0 to 165 Sec. 
- 28  Programms
- 64  Event triggers (DMXfaceXP pro supports 80 triggers)
- 4 	 Recordable timelines with 50msek resolution
- 32	 Sendsequences
+ 224 DMX channels  (DMXfaceXP pro supports 512+32 DMX channels)<br>
+ 180 Storeable scenes with fade times 0.0 to 165 Sec. <br>
+ 28  Programms<br>
+ 64  Event triggers (DMXfaceXP pro supports 80 triggers)<br>
+ 4 	 Recordable timelines with 50msek resolution<br>
+ 32	 Sendsequences<br>
 
 Dokumentation and communication protocoll downloads: http://www.spl-technik.at/index.php/dmxface-downloads
  

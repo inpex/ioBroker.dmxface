@@ -1,21 +1,21 @@
 {
     "common": {
         "name": "dmxface",
-        "version": "0.0.1",
+        "version": "1.0.0",
         "news": {
-            "0.0.1": {
-                "en": "Is being developed",
-                "de": "Wird gerade entwickelt"
+            "1.0.0": {
+                "en": "ioBroker adapter for DMXfaceXP controllers",
+                "de": "ioBroker Adapter für DMXfaceXP Controller"
             }
         },
-        "title": "DMXface (JavaScript)",
+        "title": "DMXfaceXP",
         "titleLang": {
-            "en": "DMXface (JavaScript)",
-            "de": "DMXface (JavaScript)"
+            "en": "DMXfaceXP ioBroker adapter",
+            "de": "DMXfaceXP ioBroker Adapter"
         },
         "desc": {
-            "en": "DMXface adapter development",
-            "de": "DMXface Adapterentwicklung"
+            "en": "Connects DMXfaceXP by ACTIVE SEND protocoll",
+            "de": "Verbindet das DMXfaceXP über das ACTICE SEND Protokoll"
         },
         "authors": [
             "Author <mail@dmxface.at>"
@@ -23,6 +23,8 @@
         "keywords": [
             "ioBroker",
             "dmxface",
+			"DMXfaceXP",
+			"Media controller",
             "Smart Home",
             "home automation"
         ],
@@ -42,10 +44,10 @@
         "adminTab": {
             "singleton": true,
             "name": {
-                "en": "Template (JavaScript)",
-                "de": "Vorlage (JavaScript)"
+                "en": "DMXfaceXP",
+                "de": "DMXfaceXP"
              },
-            "link": "",
+            "link": "www.dmxface.at",
             "fa-icon": "info"
         },
         "supportCustoms": true,

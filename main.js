@@ -1,25 +1,27 @@
 'use strict';
+//REV 1.0.0
 //DMXfaceXP Adapter for ioBroker
 //Uses DMXface ACTIVE SEND PROTOCOLL Rev 5.14 to communicate (Documentation available www.dmxface.at)
 const utils = require('@iobroker/adapter-core');
 var adapter  = utils.Adapter ('dmxface');
 
-var LOG_ALL = true;
+var LOG_ALL = false;						//Flag to activate full logging
 
-// DMXFACE CONNECTION value containers
-var IPADR  = "0.0.0.0";
-var PORT = 0;
-var TIMING = 1000;
-var DMX_CHANNELS_USED = 0;
+//DMXFACE CONNECTION values
+var IPADR  = "0.0.0.0";						//DMXface IP address
+var PORT = 0;								//DMXface port of TCP server ACIVE SEND socket (Configured @ DMXface Setup)
+var TIMING = 1000;							//Request timing for addtional added ports and analog inputs
+var DMX_CHANNELS_USED = 0;					//DMXchannels in use by ioBroker to prevent getting objects for all 244 channels
 
-//To receive analog values of inports, businports and dmxchannels (optional converted by tables @dmxface) 
-//the required ports have to be specified with a string containing INnn, BUSnn or DMXnn 
+//To receive analog values of INports, BUSinports and DMXchannels (optional as converted value by tables stored in DMXface) 
+//The required ports have to be specified with a string containing 'INnn, BUSnn,DMXnn' seperated by comma.
+//E.g. 'IN1,IN4,BUS1,DMX7' creates objects for the analog / converted values of the listed 4 additional channels
 //The listed ports are requested with the specified cycle time one by one.
-var EX_REQUEST_LIST = "IN1,IN2,IN3,IN4,BUS1,BUS2,BUS3,DMX4,DMX3,DMX6";  //Setup List to be forwarded by html
-var EX_REQUEST_NAMES = [];  	// ['VALUE_IN1'],[VALUE_IN2] ...formatted and checked eqivalent to OBJECT NAMES
-var EX_REQUEST_PORTS ="";  		// String "IIIIBBBDDD" each postion I,B,D equvalent to list
-var EX_REQUEST_NUMBERS =[];		// [1],[2],[3] ...  Portnumber 1 to nn integer 
-var EX_PTR = 0;  //Pointer to the Object requested next
+var EX_REQUEST_LIST = "";  		//Setup list for additional channel requests
+var EX_REQUEST_NAMES = [];  	//['VALUE_IN1'],[VALUE_IN2] ...formatted and checked to be created as STATE Objects
+var EX_REQUEST_PORTS ="";  		//String "IIIIBBBDDD" each postion I,B,D equvalent to list
+var EX_REQUEST_NUMBERS =[];		//[1],[2],[3] ...  Array with Portnumbers 1 to nn as integer 
+var EX_PTR = 0;  				//Pointer to the Object requested next by the timed cycle
 
 // OBJECT ID of TIMED DATA REQUEST
 var OBJID_REQUEST; 
@@ -27,16 +29,20 @@ var OBJID_REQUEST;
 // DMXface TCP Connection
 var net = require ('net');
 var client = new net.Socket();
+var ISreconnecting = false;		//FLAG that shows that a reconnect process is runnig, after an error has occured.
 
-// CHECK FLAG true when connection established and free of error
+//FLAG, true when connection established and free of error
 var IS_ONLINE  = false;
 
+//ADAPTER STARTS
 adapter.on ('ready',function (){
 	var i;
 //Move the ioBroker Adapter configuration to the container values 
 	IPADR = adapter.config.ipaddress;
 	PORT = adapter.config.port;
 	TIMING = adapter.config.requesttiming; 
+	EX_REQUEST_LIST = adapter.config.addchannels;
+	LOG_ALL = adapter.config.extlogging;
 	DMX_CHANNELS_USED = parseInt(adapter.config.lastdmxchannel);
 
 //LIMIT the number of DMX channels max. 224 usable with ioBroker
@@ -44,7 +50,7 @@ adapter.on ('ready',function (){
 	if (DMX_CHANNELS_USED <0) {DMX_CHANNELS_USED = 0};
 //LIMIT the request timimng	
 	if (TIMING <100){TIMING = 100;}
-	if (TIMING > 3600000) {TIMING = 3600000;}
+	if (TIMING > 600000) {TIMING = 600000;}
 	
 	adapter.log.info ('Connecting DMXface ' +IPADR + ' Port:' + PORT + '  Timing:' + TIMING + 'ms  DMXchannels:' + DMX_CHANNELS_USED);
 
@@ -164,21 +170,28 @@ adapter.on ('ready',function (){
 //INITIATE timed request for additional requests if list contains valid ports
 	if (EX_REQUEST_NAMES.length > 0) {
 		OBJID_REQUEST = setInterval (CLIENT_REQUEST,TIMING);
-		adapter.log.info ("Starting timed port request:" + EX_REQUEST_NAMES.length +" Ports," + TIMING + "ms")
+		adapter.log.info ("Starting " + EX_REQUEST_NAMES.length +" addtional port requests, period:" + TIMING + "ms")
 	}
 });
 
-// Adapter termination by IObroker
+//ADAPTER CLOSED BY ioBroker
 adapter.on ('unload',function (callback){
-	adapter.log.info ('DMXface: Close connection, cancel service');
 	clearInterval (OBJID_REQUEST);
-	CLIENT.close;
+	IS_ONLINE = false;
+	adapter.log.info ('DMXface: Close connection, cancel service');
+	client.close;
 	callback;
 	});
 
 
-//State Changes	
+//STATE has CHANGED	
 adapter.on ('stateChange',function (id,obj){
+	if (!IS_ONLINE){return;}							//DMXface Offline	
+	if (obj==null) {
+		adapter.log.info ('Object: '+ id + ' terminated by user');
+		return;
+	}
+		
 	if (obj.from.search ('dmxface') != -1) {return;}    // do not process self generated state changes (by dmxface instance) 
 														//exit if sender = dmxface
 	var PORTSTRING = id.substring(10);  				//remove Instance name
@@ -230,15 +243,15 @@ adapter.on ('stateChange',function (id,obj){
 });
 
 
-//Connect the client
+//CONNECT THE TCP CLIENT SOCKET TO THE DMXface Server SOCKET
 function CONNECT_CLIENT () {
-	if (LOG_ALL){adapter.log.info('DMXface CONNECTING')};
+	if (LOG_ALL){adapter.log.info('Start to connect DMXface')};
 	IS_ONLINE = false;
-	client.close;
+	ISreconnecting = false;
 	client.connect (PORT,IPADR,CBclientCONNECT);
 }
 
-//CLIENT CONNECTED callback
+//CLIENT SUCCESSFUL CONNECTED (CALLBACK from CONNECT_CLIENT)
 function CBclientCONNECT () {
 	// Handler
 	client.on ('data',CBclientRECEIVE);
@@ -247,12 +260,24 @@ function CBclientCONNECT () {
 	adapter.log.info ('DMXface connection established');
 	// ONLINE FLAG
 	IS_ONLINE = true;
+	ISreconnecting = false;;
 }
 
-	
-//Request of addition listet Inports Bus Ports or MDX Channels with Conversions
+//CLIENT ERROR HANDLER AND CONNECTION RESTART
+function CBclientERROR(Error) {
+	IS_ONLINE = false;											//Flag Connection not longer online
+	adapter.log.error ("Error DMXface connection: " + Error);	
+	client.close;												//Close the connection
+	if (ISreconnecting == false) {								//Initiate reconnect if this process isnt startet yet
+		var RCTASK = setTimeout (CONNECT_CLIENT,10000);			//within 10 Sec.
+		adapter.log.error ("Try reconnect in 10 Sec.");
+		ISreconnecting = true;									//Flag that reconnectt process is already running
+	}
+}
+
+//TIMDED REQUEST TO REQUEST ADDITIONAL PORTS FROM DMXface
 function CLIENT_REQUEST	(){
-	if (IS_ONLINE = true) {
+	if (IS_ONLINE == true) {
 		if (EX_PTR >= EX_REQUEST_NAMES.length){EX_PTR =0;}   //RESET the POINTER if > array.length
 		if (LOG_ALL) {adapter.log.info ("Request:" +EX_REQUEST_NAMES[EX_PTR])}
 		var WDATA; 				//TX Buffer
@@ -283,18 +308,7 @@ function CLIENT_REQUEST	(){
 	}
 }
 
-//CLIENT ERROR HANDLER
-function CBclientERROR(Error) {
-	IS_ONLINE = false;
-	adapter.log.error ("DMXface connection error: " + Error);
-	adapter.log.info ("Reconnecting");
-	CONNECT_CLIENT;
-}
-
-
-
-//------------------------------------------------------ RX DATA PROCESSING --------------------------------------------------------------------
-// Prozessing the received ACTIVE SEND data from DMXface 
+//PROCESSING ASYNCHRON RECEIVED DATA FROM DMXface
 function CBclientRECEIVE(RXdata) {
 	if (RXdata.length < 3) {return;}			// Minimum Length of response ist start 0xF0, Signature 0xnn and at least one data byte 
 	
@@ -413,7 +427,7 @@ function CBclientRECEIVE(RXdata) {
 	
 }
 
-
+//DATA FORMATTING FUNCTIONS
 function GetDMX (number){
 	if (number <10) {return 'DMX00'+number;}
 	if (number <100) {return 'DMX0'+number;}

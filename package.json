@@ -1,7 +1,7 @@
 {
   "name": "iobroker.dmxface",
-  "version": "0.0.1",
-  "description": "DMXface adapter development",
+  "version": "1.0.0",
+  "description": "DMXfaceXP adapter for ioBroker",
   "author": {
     "name": "Hufnagl Oliver",
     "email": "mail@dmxface.at"
@@ -10,7 +10,9 @@
   "license": "MIT",
   "keywords": [
     "ioBroker",
-    "template",
+    "dmxface",
+	"DMXfaceXP",
+	"Media controller",
     "Smart Home",
     "home automation"
   ],

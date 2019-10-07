@@ -1,5 +1,5 @@
 'use strict';
-//REV 1.0.0
+//REV 1.0.1
 //DMXfaceXP Adapter for ioBroker
 //Uses DMXface ACTIVE SEND PROTOCOLL Rev 5.14 to communicate (Documentation available www.dmxface.at)
 const utils = require('@iobroker/adapter-core');
@@ -29,7 +29,13 @@ var OBJID_REQUEST;
 // DMXface TCP Connection
 var net = require ('net');
 var client = new net.Socket();
-var ISreconnecting = false;		//FLAG that shows that a reconnect process is runnig, after an error has occured.
+
+	// Handler
+	client.on ('data',CBclientRECEIVE);
+	client.on ('error',CBclientERROR);
+	client.on ('close',CBclientCLOSED);
+	client.on ('ready',CBclientCONNECT);
+var APPLICATIONstopp = false;		//FLAG that shows that a reconnect process is runnig, after an error has occured.
 
 //FLAG, true when connection established and free of error
 var IS_ONLINE  = false;
@@ -52,7 +58,7 @@ adapter.on ('ready',function (){
 	if (TIMING <100){TIMING = 100;}
 	if (TIMING > 600000) {TIMING = 600000;}
 	
-	adapter.log.info ('Connecting DMXface ' +IPADR + ' Port:' + PORT + '  Timing:' + TIMING + 'ms  DMXchannels:' + DMX_CHANNELS_USED);
+	adapter.log.info ("DMXfaceXP " + IPADR + " Port:" + PORT + " DMXchannels:" + DMX_CHANNELS_USED);
 
 //Read and check the user configurable string containig additional ports that will by requested by ioBroker
 	EX_REQUEST_LIST = EX_REQUEST_LIST.trim();				//Remove blanks
@@ -157,7 +163,7 @@ adapter.on ('ready',function (){
 	for (i=0; i < EX_REQUEST_NAMES.length; i++){
 		adapter.setObjectNotExists (EX_REQUEST_NAMES[i],{
 			type:'state',
-			common:{name: EX_REQUEST_NAMES,type:'number',role:'value',read:true,write:false},
+			common:{name: EX_REQUEST_NAMES[i],type:'number',role:'value',read:true,write:false},
 			native:{}
 		});		
 	}
@@ -176,8 +182,9 @@ adapter.on ('ready',function (){
 
 //ADAPTER CLOSED BY ioBroker
 adapter.on ('unload',function (callback){
-	clearInterval (OBJID_REQUEST);
+	APPLICATIONstopp = true
 	IS_ONLINE = false;
+	clearInterval (OBJID_REQUEST);
 	adapter.log.info ('DMXface: Close connection, cancel service');
 	client.close;
 	callback;
@@ -245,22 +252,16 @@ adapter.on ('stateChange',function (id,obj){
 
 //CONNECT THE TCP CLIENT SOCKET TO THE DMXface Server SOCKET
 function CONNECT_CLIENT () {
-	if (LOG_ALL){adapter.log.info('Start to connect DMXface')};
 	IS_ONLINE = false;
-	ISreconnecting = false;
-	client.connect (PORT,IPADR,CBclientCONNECT);
+	adapter.log.info("Connecting DMXface controller " + IPADR + " "+ PORT);
+	client.connect (PORT,IPADR);
 }
 
 //CLIENT SUCCESSFUL CONNECTED (CALLBACK from CONNECT_CLIENT)
 function CBclientCONNECT () {
-	// Handler
-	client.on ('data',CBclientRECEIVE);
-	client.on ('error',CBclientERROR);
-	adapter.setState ('info.connection',true,true);
+	//adapter.setState ('info.connection',true,true);
 	adapter.log.info ('DMXface connection established');
-	// ONLINE FLAG
 	IS_ONLINE = true;
-	ISreconnecting = false;;
 }
 
 //CLIENT ERROR HANDLER AND CONNECTION RESTART
@@ -268,13 +269,15 @@ function CBclientERROR(Error) {
 	IS_ONLINE = false;											//Flag Connection not longer online
 	adapter.log.error ("Error DMXface connection: " + Error);	
 	client.close;												//Close the connection
-	if (ISreconnecting == false) {								//Initiate reconnect if this process isnt startet yet
-		var RCTASK = setTimeout (CONNECT_CLIENT,10000);			//within 10 Sec.
-		adapter.log.error ("Try reconnect in 10 Sec.");
-		ISreconnecting = true;									//Flag that reconnectt process is already running
-	}
 }
-
+function CBclientCLOSED() {
+	adapter.log.warn ("DMXface connection closed");
+	if (APPLICATIONstopp ==false) {
+		var RCTASK = setTimeout (CONNECT_CLIENT,30000);			//within 30 Sec.
+		adapter.log.info ("Trying to reconnect in 30sec.");
+	}
+		
+}
 //TIMDED REQUEST TO REQUEST ADDITIONAL PORTS FROM DMXface
 function CLIENT_REQUEST	(){
 	if (IS_ONLINE == true) {

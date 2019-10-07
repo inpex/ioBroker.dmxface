@@ -64,7 +64,8 @@ Request timing if addition channels are listed (ms): This value specifies the ti
 first release
 
 ##  Changelog
-
+1.0.0  Initial release
+1.0.1  Bugfixes (reconnect procedure after loosing TCP connection)
 
 ## License
 MIT License

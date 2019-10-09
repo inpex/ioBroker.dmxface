@@ -1,5 +1,5 @@
 'use strict';
-//REV 1.0.1
+//REV 1.0.2
 //DMXfaceXP Adapter for ioBroker
 //Uses DMXface ACTIVE SEND PROTOCOLL Rev 5.14 to communicate (Documentation available www.dmxface.at)
 const utils = require('@iobroker/adapter-core');
@@ -61,6 +61,7 @@ adapter.on ('ready',function (){
 	adapter.log.info ("DMXfaceXP " + IPADR + " Port:" + PORT + " DMXchannels:" + DMX_CHANNELS_USED);
 
 //Read and check the user configurable string containig additional ports that will by requested by ioBroker
+	if (EX_REQUEST_LIST==null) {EX_REQUEST_LIST = "";}		// maybe NULL @ first start
 	EX_REQUEST_LIST = EX_REQUEST_LIST.trim();				//Remove blanks
 	if (EX_REQUEST_LIST.length > 0){						//Check for content
 		EX_REQUEST_LIST = EX_REQUEST_LIST.toUpperCase();		//Uppercase "IN1,IN3,BUS4,..."

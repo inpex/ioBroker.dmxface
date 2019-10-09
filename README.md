@@ -1,7 +1,7 @@
 ![Logo](admin/dmxface.png)
 http://www.dmxface.at
-# ioBroker.dmxface
-Programmable IO controller with <br>
+# ioBroker.dmxface 1.0.2
+Adapter for DMXface, programmable IO controller with <br>
  DMX OUT bus<br>
  DMX IN bus<br>
  8 to 16 INports with analog to digital support for all channels (16 ports with the IO8 extension)<br>
@@ -66,7 +66,7 @@ first release
 ##  Changelog
 1.0.0  Initial release
 1.0.1  Bugfixes (reconnect procedure after loosing TCP connection)
-
+1.0.2  File cleanup+ Bugfix (List of additional ports causes error @ first start due to NULL value
 ## License
 MIT License
 

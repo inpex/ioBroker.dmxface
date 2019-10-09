@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "dmxface",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "news": {
-            "1.0.1": {
+            "1.0.2": {
                 "en": "ioBroker adapter for DMXfaceXP controllers",
                 "de": "ioBroker Adapter für DMXfaceXP Controller"
             }

@@ -60,8 +60,8 @@ The request reads the (converted) value of a listed port an forwards it to a sta
 
 Request timing if addition channels are listed (ms): This value specifies the timing within the additional channels are requested one by one.<br>
 
-### 1.0.0
-first release
+### 1.0.2
+released for use with DMXfaceXP Controller
 
 ##  Changelog
 1.0.0  Initial release

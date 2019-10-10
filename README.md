@@ -64,13 +64,13 @@ Request timing if addition channels are listed (ms): This value specifies the ti
 released for use with DMXfaceXP Controller
 
 ##  Changelog
-1.0.0  Initial release
-1.0.1  Bugfixes (reconnect procedure after loosing TCP connection)
-1.0.2  File cleanup+ Bugfix (List of additional ports causes error @ first start due to NULL value
+1.0.0  Initial release<br>
+1.0.1  Bugfixes (reconnect procedure after loosing TCP connection)<br>
+1.0.2  File cleanup+ Bugfix (List of additional ports causes error @ first start due to NULL value<br>
 ## License
-MIT License
+MIT License<br>
 
-Copyright (c) 2019 SPaL Oliver Hufnagl <mail@dmxface.at>
+Copyright (c) 2019 SPaL Oliver Hufnagl <mail@dmxface.at><br>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,6 +1,6 @@
 ![Logo](admin/dmxface.png)
 http://www.dmxface.at
-# ioBroker.dmxface 1.0.2
+# ioBroker.dmxface 1.1.0 Adapter
 Adapter for DMXface, programmable IO controller with <br>
  DMX OUT bus<br>
  DMX IN bus<br>
@@ -26,6 +26,8 @@ Dokumentation and communication protocoll downloads: http://www.spl-technik.at/i
 ## DMXface adapter for ioBroker
 This adapter connects the DMXfaceXP controller with ioBroker.
 The communication protocoll used is the DMXface ACTIVE SEND protocoll.
+Rev 1.1.0 supports additional features like min/max tracking of channels as well 
+the calculation of power consumed for selected channels.
 
 ## Setup the DMXface
 To configure the DMXface controller, you need the 'DMXface Console' downloadable at http://www.dmxface.at<br>
@@ -54,23 +56,37 @@ IP address:  Same as used for the DMXfaceXP controller<br>
 Port: Same as configured in the network socket 6 or 7<br>
 Last DMX channel used: Number of DMX state objects that will be created when the DMXface adapter ist started.<br>
 Additional channel requests:<br>
-Here you can list addition ports that should be requested cyclic by ioBroker.<br>
 DMXface covers the possibility to process values of DMX channels, AD values of INPORT or BUS ports by a conversion table. 
-The request reads the (converted) value of a listed port an forwards it to a state object as floating value.<br>
+Here you can list additional ports that should be requested containing such a conversion.<br>
+Enter the required channel separated by semicolons like IN1, OUT5, DMX112,...
+ioBroker requests the values as float withing the timing and stores it in additional states VALUE_...
 
-Request timing if addition channels are listed (ms): This value specifies the timing within the additional channels are requested one by one.<br>
+Power consumption and runtime tracking <br>
+Here you can list IO and DMX ports, optional with the power of the load controlled by the channel. <br>
+Format is e.g. OUT5(750) this means that OUTPORT5 controls a 750W load.
+If no powerload is added just the runtime will be tracked.
+As soon there is a channel added you will get one or two new states for the port.<br>
+RUNTIME_OUTPORT05 and if powervalue is added the state POWER_OUTPORT05. <br>
+POWER contains the KW/h and increases as soon OUTPORT5 is true
+RUNTIME is the time in hours while OUTPORT5 was true.
+If you use a DMX channel the power value is calculated with the value of the DMX channel.<br>
+A DMX value =0 is off, a DMX value of 255 adds the full load to the POWER_xx value.
 
-### 1.0.2
+Request timing (ms): This value specifies the timing within the additional channels are requested one by one and the
+power consumption and runtime is calculated.<br>
+
+### 1.1.0
 released for use with DMXfaceXP Controller
 
 ##  Changelog
 1.0.0  Initial release<br>
 1.0.1  Bugfixes (reconnect procedure after loosing TCP connection)<br>
 1.0.2  File cleanup+ Bugfix (List of additional ports causes error @ first start due to NULL value<br>
+1.1.0  New version of the adapter containing min/max tracking and power tracking)
 ## License
 MIT License<br>
 
-Copyright (c) 2019 SPaL Oliver Hufnagl <mail@dmxface.at><br>
+Copyright (c) 2020 SPaL Oliver Hufnagl <mail@dmxface.at><br>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

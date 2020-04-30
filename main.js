@@ -332,7 +332,6 @@ adapter.on ('stateChange',function (id,obj){
 														  //exit if sender = dmxface
 	var PORTSTRING = id.substring(adaptername.length+3);  				//remove Instance name
 	// if (PORTSTRING[0] ='.'){PORTSTRING = id.substring(adaptername.length+4)};  optional removal if more than 10 Instances are used 
-	adapter.log.info ('STATE CHANGE : ' + PORTSTRING);
 	//Statistic value´s are not processed
 	if (PORTSTRING.search ('STAT_') > -1) {return;}
 	//Reset of min max 
@@ -369,7 +368,6 @@ adapter.on ('stateChange',function (id,obj){
 		case 'D':		//DMX CHANNEL
 			var PORTNUMBER = parseInt(PORTSTRING.substring(3));
 			WDATA= Buffer.from ([0xF0,0x44,((PORTNUMBER >> 8)&0xFF),(PORTNUMBER &0xFF),obj.val]);  // DMXFACE ACTIVE SEND Command SET DMX CHANNEL
-			adapter.log.info ("WRITE DMX:" + WDATA.length);
 			client.write (WDATA); 
 			break;
 		case 'B':	 	//BUS IO 
@@ -495,7 +493,7 @@ function POWERmeasure (i){
 				adapter.getState(IDout, function (err, state) {
 					var POWERvalue = 0;
 					if (state != null){if (state.val !=null){POWERvalue =  parseFloat(state.val);}}
-					// adapter.log.info ("POWERMEASUE STATE: of "+ IDout + 	" / " +POWERvalue);
+
 					if (PW_bool){
 						POWERvalue+=POWERtoADD;
 					} else {

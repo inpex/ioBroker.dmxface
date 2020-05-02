@@ -86,10 +86,10 @@ adapter.on ('ready',function (){
 		var BUFF = EX_REQUEST_LIST.split(",");					//Split the content seperated by ","
 
 		for (i=0; i<BUFF.length; i++){							//Check the elements vor valid entries and add to list 
-			var BB = BUFF[i];
+			var BB = BUFF[i].trim();
 			switch (BB[0]){										//Check first character and Port number 
 				case 'I':		//INPORT valid from 1 to 16
-					var PNR = parseInt(BUFF[i].substring(2));   // e.g. "IN10" --> Position 2++ has to contain Portnumber
+					var PNR = parseInt(BB.substring(2));   // e.g. "IN10" --> Position 2++ has to contain Portnumber
 					if (PNR >0 && PNR <16) {					//VALID INPORT NUMBER 1 to 16 (ports with AD Option)
 						EX_REQUEST_PORTS += 'I';				//ADD Element to String
 						EX_REQUEST_NUMBERS.push (PNR);
@@ -98,7 +98,7 @@ adapter.on ('ready',function (){
 					}
 					break;
 				case 'B':   //BUS Port valid from 1 to 32
-					var PNR = parseInt(BUFF[i].substring(3));   // e.g. "BUS24" -> Position 3++ has to contain Portnumber
+					var PNR = parseInt(BB.substring(3));   // e.g. "BUS24" -> Position 3++ has to contain Portnumber
 					if (PNR >0 && PNR <33) {					//VALID INPORT NUMBER 1 to 32
 						EX_REQUEST_PORTS += 'B';				//ADD Element to list
 						EX_REQUEST_NUMBERS.push (PNR);
@@ -107,7 +107,7 @@ adapter.on ('ready',function (){
 					}
 					break;
 				case 'D':   //DMX valid from 1 to 224
-					var PNR = parseInt(BUFF[i].substring(3));   // e.g. "DMX221" -> Position 3++ has to contain Portnumber
+					var PNR = parseInt(BB.substring(3));   // e.g. "DMX221" -> Position 3++ has to contain Portnumber
 					if (PNR >0 && PNR <225) {					//VALID DMX NUMBER 1 to 224
 						EX_REQUEST_PORTS += 'D';				//ADD Element to list
 						EX_REQUEST_NUMBERS.push (PNR);
@@ -117,7 +117,7 @@ adapter.on ('ready',function (){
 					break;
 				//REV1.1 Update CHAR BUFFERS valid from DMXface Firmware 5.17
 				case 'C':   //CHAR BUFFER REQUEST 1-8
-					var PNR = parseInt(BUFF[i].substring(4));   // e.g. "CHAR7" -> Position 4++ has to contain CHAR BUFFER NR
+					var PNR = parseInt(BB.substring(4));   // e.g. "CHAR7" -> Position 4++ has to contain CHAR BUFFER NR
 					if (PNR >0 && PNR <9) {						//VALID NUMBER 1 to 8
 						EX_REQUEST_PORTS += 'C';				//ADD Element to list
 						EX_REQUEST_NUMBERS.push (PNR);
@@ -139,7 +139,7 @@ adapter.on ('ready',function (){
 		var BUFF = PW_REQUEST_LIST.split(",");					//Split the content seperated by ","
 		for (i=0; i<BUFF.length; i++){							//Check the elements vor valid entries and add to list 
 			var WATT=0;
-			var BB = BUFF[i];									//ONE ELEMENT										//POSITION of ( and )
+			var BB = BUFF[i].trim();							//ONE ELEMENT										//POSITION of ( and )
 			var CA = BB.indexOf ('(');							//CHECK for LOAD VALUE out of ()
 			var CB = BB.indexOf (')');
 			if (CB > CA)
@@ -152,25 +152,25 @@ adapter.on ('ready',function (){
 			var isBOOL = true;									//OUT,IN,BUS is processed bool, DMX with load is floating to state value
 			switch (BB[0]){										//Check first character and Port number 
 				case 'I':		//INPORT valid from 1 to 16
-					var PNR = parseInt(BUFF[i].substring(2));   // e.g. "IN10" --> Position 2++ has to contain Portnumber
+					var PNR = parseInt(BB.substring(2));   // e.g. "IN10" --> Position 2++ has to contain Portnumber
 					if (PNR >0 && PNR <16) {					//VALID INPORT NUMBER 1 to 16 (ports with AD Option)
 						newNAME = GetIN(PNR);
 					}
 					break;
 				case 'O':		//OUTPORT valid from 1 to 16
-					var PNR = parseInt(BUFF[i].substring(3));   // e.g. "OUT10" --> Position 2++ has to contain Portnumber
+					var PNR = parseInt(BB.substring(3));   // e.g. "OUT10" --> Position 2++ has to contain Portnumber
 					if (PNR >0 && PNR <16) {					//VALID INPORT NUMBER 1 to 16 (ports with AD Option)
 						newNAME = GetOUT(PNR);
 					}
 					break;
 				case 'B':   //BUS Port valid from 1 to 32
-					var PNR = parseInt(BUFF[i].substring(3));   // e.g. "BUS24" -> Position 3++ has to contain Portnumber
+					var PNR = parseInt(BB.substring(3));   // e.g. "BUS24" -> Position 3++ has to contain Portnumber
 					if (PNR >0 && PNR <33) {					//VALID INPORT NUMBER 1 to 32
 						newNAME= GetBUS(PNR);
 					}
 					break;
 				case 'D':   //DMX valid from 1 to 224
-					var PNR = parseInt(BUFF[i].substring(3));   // e.g. "DMX221" -> Position 3++ has to contain Portnumber
+					var PNR = parseInt(BB.substring(3));   // e.g. "DMX221" -> Position 3++ has to contain Portnumber
 					if (PNR >0 && PNR <225) {					//VALID DMX NUMBER 1 to 224
 						newNAME = GetDMX(PNR);
 						isBOOL = false;

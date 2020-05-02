@@ -229,14 +229,14 @@ adapter.on ('ready',function (){
 //SCENEN calls a scene when scene number is written to the object value 
 	adapter.setObjectNotExists ('SCENE_CALL',{
 		type:'state',
-		common:{name:'SCENE NUMBER CALL',type:'number',role:'value',read:true,write:false},
+		common:{name:'SCENE NUMBER CALL',type:'number',role:'value',read:true,write:true},
 		native:{}
 	});		
 		
 //PROGRAM calls a program when program number is written to the object value 
 	adapter.setObjectNotExists ('PROGRAM_CALL',{
 		type:'state',
-		common:{name:'PROGRAM NUMBER CALL',type:'number',role:'value',read:true,write:false},
+		common:{name:'PROGRAM NUMBER CALL',type:'number',role:'value',read:true,write:true},
 		native:{}
 	});		
 		

@@ -1,24 +1,20 @@
 {
-   "name":"iobroker.dmxface",
+   "name":"iobroker.socketIoServer",
    "version":"1.1.0",
-   "description":"DMXfaceXP adapter for ioBroker",
+   "description":"SocketIo Server adapter for ioBroker",
    "author":{
-      "name":"Hufnagl Oliver",
-      "email":"mail@dmxface.at"
+      "name":"Inpex",
+      "email":""
    },
-   "homepage":"https://github.com/DMXface/ioBroker.dmxface",
+   "homepage":"https://github.com/inpex/ioBroker.dmxface",
    "license":"MIT",
    "keywords":[
       "ioBroker",
-      "dmxface",
-      "DMXfaceXP",
-      "Media controller",
-      "Smart Home",
-      "home automation"
+      "SocketIoServer"
    ],
    "repository":{
       "type":"git",
-      "url":"https://github.com/DMXface/ioBroker.dmxface"
+      "url":"https://github.com/inpex/ioBroker.dmxface"
    },
    "dependencies":{
       "@iobroker/adapter-core":"^1.0.3"
@@ -31,7 +27,7 @@
 
    },
    "bugs":{
-      "url":"https://github.com/DMXface/ioBroker.dmxface/issues"
+      "url":"https://github.com/inpex/ioBroker.dmxface/issues"
    },
    "readmeFilename":"README.md"
 }

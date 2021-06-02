@@ -1,32 +1,27 @@
 {
    "common":{
-      "name":"dmxface",
+      "name":"socketio",
       "version":"1.1.0",
       "news":{
          "1.1.0":{
-            "en":"ioBroker adapter for DMXfaceXP controllers",
-            "de":"ioBroker Adapter für DMXfaceXP Controller"
+            "en":"ioBroker adapter for socketio controllers",
+            "de":"ioBroker Adapter für socketio Controller"
          }
       },
-      "title":"DMXfaceXP",
+      "title":"socketio",
       "titleLang":{
-         "en":"DMXfaceXP ioBroker adapter",
-         "de":"DMXfaceXP ioBroker Adapter"
+         "en":"socketio ioBroker adapter",
+         "de":"socketio ioBroker Adapter"
       },
       "desc":{
-         "en":"Connects DMXfaceXP by ACTIVE SEND protocoll",
-         "de":"Verbindet das DMXfaceXP über das ACTICE SEND Protokoll"
+         "en":"Connects socketio by ACTIVE SEND protocoll",
+         "de":"Verbindet socketio"
       },
       "authors":[
-         "Author <mail@dmxface.at>"
+         ""
       ],
       "keywords":[
          "ioBroker",
-         "dmxface",
-         "DMXfaceXP",
-         "Media controller",
-         "Smart Home",
-         "home automation"
       ],
       "license":"MIT",
       "platform":"Javascript/Node.js",
@@ -57,12 +52,7 @@
          }
       ]
    },
-   "native":{
-      "ipaddress":"0.0.0.0",
-      "port":"6000",
-      "requesttiming":"1000",
-      "lastdmxchannel":"0"
-   },
+   "native":{  },
    "objects":[
 
    ],
